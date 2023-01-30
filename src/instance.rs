@@ -16,8 +16,8 @@ pub struct RcpspInstance {
     pub successors_set: Vec<HashSet<usize>>,
     // Duration of the jobs
     pub duration: Vec<isize>,
-    // Weight the jobs for each resource
-    pub weight: Vec<Vec<isize>>,
+    // Consumption of the jobs for each resource
+    pub consumption: Vec<Vec<isize>>,
     // Capacity of the resources
     pub capacity: Vec<isize>,
 }
@@ -90,6 +90,6 @@ impl <B: BufRead> From<Lines<B>> for RcpspInstance {
             lc += 1;
         }
 
-        RcpspInstance { n_jobs, n_resources, predecessors, successors, predecessors_set, successors_set, duration, weight, capacity }
+        RcpspInstance { n_jobs, n_resources, predecessors, successors, predecessors_set, successors_set, duration, consumption: weight, capacity }
     }
 }

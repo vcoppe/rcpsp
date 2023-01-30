@@ -34,7 +34,7 @@ fn main() {
 
     let instance = RcpspInstance::from(File::open(&args.instance).unwrap());
     let problem = Rcpsp::new(instance);
-    let relaxation = RcpspRelax::new(&problem);
+    let relaxation = RcpspRelax{pb: &problem};
     let ranking = RcpspRanking;
 
     let width: Box<dyn WidthHeuristic<_> + Send + Sync> = if let Some(w) = args.width {
@@ -64,8 +64,9 @@ fn main() {
     let time = Instant::now();
     let Completion{is_exact, best_value} = solver.maximize();
     let duration = time.elapsed();
+    let best = best_value.map_or(isize::MIN, |value| - value);
 
-    println!("Best value: {}", best_value.unwrap_or(isize::MIN));
+    println!("Best value: {}", best);
     println!("Optimal   : {}", is_exact);
     println!("Elapsed   : {}", duration.as_secs_f64());
 }
